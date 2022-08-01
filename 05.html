@@ -1,0 +1,26 @@
+<!-- https://www.zhangxinxu.com/wordpress/2020/10/css-attr-polyfill/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS attr()指定值类型的新语法简介</title>
+    <style>
+        span:hover::after {
+            content: attr(data-title);
+        }
+        button {
+            background-color: attr(bgcolor color);
+            border-radius: attr(radius px, 4px);
+        }
+    </style>
+</head>
+<body>
+    <span data-title="提示">按钮</span>
+    <button bgcolor="skyblue" radius="4">按钮</button>
+    <button bgcolor="#00000040" radius="1rem">按钮</button>
+    <button bgcolor="red" radius="50%">按钮</button>
+    <button bgcolor="orange" radius="100% / 50%" title="by zhangxinxu(.com)">按钮</button>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!-- https://www.zhangxinxu.com/wordpress/2020/10/css-var-custom-any-function-polyfill/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>巧借CSS var变量实现任意的CSS自定义语法    </title>
+    <style>
+        /* body {
+            color: keyword(red, 50%);
+            color: keyword(red, 0.5);
+            color: keyword(red / 50%);
+            color: keyword(red / 0.5);
+        } */
+        body {
+            --keyword: keyword(blue, 50%);
+            color: var(--keyword);
+            /* 支持自定义属性嵌套 */
+            --aaa: keyword(blue, 0.1);
+            --bbb: var(--aaa);
+            background-color: var(--bbb);
+
+            font-size: 3rem;
+        }
+    </style>
+    <script src="./keyword-color.js"></script>
+    <!-- 小结 -->
+    <!--
+        1. 通过css变量让本来认为非法的css语法合法化（符合css语法规范）
+        2. 通过js来获取相关的css变量， 并将其转换成可以正常使用的css语法
+        3. 相关的js应在页面加载完时成执行一次 后续dom变更时每次变更， 针对新增的节点再执行一次
+        4. 
+    -->
+</head>
+<body>
+    <p>文字颜色是？</p>
+</body>
+</html>

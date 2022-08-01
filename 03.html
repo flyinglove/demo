@@ -1,0 +1,28 @@
+<!-- https://www.zhangxinxu.com/wordpress/2020/10/text-as-css-background-image/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>让文字作为CSS背景图片-使用svg</title>
+    <style>
+        .custom-placeholder {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='100%25' y='96%25' font-size='12' fill='%23a2a9b6' font-family='system-ui, sans-serif' text-anchor='end'%3E富强民主文明和谐美丽%3C/text%3E%3C/svg%3E") no-repeat right 10px bottom 5px;
+        }
+        .custom-placeholder:valid {
+            background: none;
+        }
+        video.error{
+            background: #000 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='14' fill='%23ffffff' font-family='system-ui, sans-serif' text-anchor='middle' dominant-baseline='middle'%3E视频无法预览%3C/text%3E%3C/svg%3E") no-repeat center;
+        }
+    </style>
+</head>
+<body>
+    <!-- 文本域提示内容 -->
+    <textarea class="custom-placeholder" required></textarea>
+    <!-- 替换元素提示内容 -->
+    <video src="xxx.png" type="video/mp4" width="360" height="240" onerror="this.classList.add('error')"></video>
+
+</body>
+</html>

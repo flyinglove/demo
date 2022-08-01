@@ -1,0 +1,79 @@
+<!-- https://www.zhangxinxu.com/wordpress/2020/10/es6-html-template-literal/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table id="tableMix" class="ui-table table">
+        <thead>
+          <tr>
+            <th width="20"><input type="checkbox"></th>
+            <th>文章标题</th>
+            <th width="22%">发布时间</th>
+            <th width="15%" align="right">评论数</th>
+          </tr>
+        </thead>
+        <tbody>
+        <template>
+        ${data.map((obj, index) => {
+          return `<tr>
+            <td><input type="checkbox" value="${obj.id}"></td>
+            <td><div class="ell">${obj.title}</div></td>
+            <td>${obj.time}</td>
+            <td align="right">${obj.comment}</td>
+          </tr>`;
+        }).join('')}
+        </template>
+        </tbody>
+        </table>
+        <script>
+            // HTML字符反转义   &lt;  =>  < 
+            function escape2Html(str) {
+                var arrEntities = { 'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"' };
+                return str.replace(/&(lt|gt|nbsp|amp|quot);/ig, function (all, t) {
+                    return arrEntities[t];
+                });
+            }
+            String.prototype.interpolate = function (params) {
+                const names = Object.keys(params);
+                const vals = Object.values(params);
+                return new Function(...names, `return \`${escape2Html(this)}\`;`)(...vals)
+            }
+            const json = [{
+                "id": "0001",
+                "title": "如何让文字作为CSS背景图片显示？",
+                "time": "2020年10月20日",
+                "comment": 7
+            }, {
+                "id": "0002",
+                "title": "SVG feTurbulence滤镜深入介绍",
+                "time": "2020年10月17日",
+                "comment": 3
+            }, {
+                "id": "0003",
+                "title": "HTML enterkeyhint设置iOS/Android键盘enter键",
+                "time": "2020年10月11日",
+                "comment": 3
+            }, {
+                "id": "0004",
+                "title": "快速学习CSS Color Level 4的色值新语法",
+                "time": "2020年10月11日",
+                "comment": 2
+            }]
+            // let htmlList = document.querySelector('template').innerHTML.interpolate({
+            //     data: json
+            // })
+        </script>
+        <script>
+            var eleTbody = document.querySelector('#tableMix tbody');
+            var strTemplate = eleTbody.querySelector('template').innerHTML;
+            eleTbody.innerHTML = strTemplate.interpolate({
+                data: json
+            }); 
+        </script>
+</body>
+</html>
