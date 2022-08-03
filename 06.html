@@ -6,11 +6,89 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>flex:0 flex:1 flex:none flex:auto应该在什么场景下使用</title>
+    <style>
+        body {
+            flex: 1 2;
+        }
+        .container {
+            display: flex;
+            border: 2px dashed crimson;
+        }
+        .container item {
+            border: 2px solid deepskyblue;    
+        }
+        .container {
+            display: flex;
+        }
+        .flex-0 item {
+            flex: 0;
+        }
+        .flex-none item {
+            flex: none;
+        }
+        .flex-1 item {
+            flex: 1;
+        }
+        .flex-auto item {
+            flex: auto;
+        }
+    </style>
 </head>
 <body>
     <!-- 
         1. flex属性使用简写时， 若只有一个值， 其他缺省值不会使用默认值
+        2. flex: 1； 设置了flex-grow=1, flex-shrink使用默认值：1， flex-basis没用默认值auto, 而是0% => flex: 1 1 0%;
+        3. flex: 100px; 设置了flex-basis=100px; flex-shrink使用默认值1； flex-grow没用默认值0， 而是1 => flex: 1 1 100px;
         
     -->
+    <!-- flex: initial => flex: 0 1 auto; -->
+    <div class="container">
+        <item>范张</item>
+        <item>范鑫</item>
+        <item>范旭</item>
+        <item>范帅</item>
+        <item>范哥</item>
+    </div>
+    <!-- flex: 0 => flex: 0 1 0%; -->
+    <h4>flex:0</h4>
+    <div class="container flex-0">
+        <item>范张范张范张</item>
+        <item>范鑫范鑫范鑫</item>
+        <item>范旭范旭范旭</item>
+        <item>范帅范帅范帅</item>
+        <item>范哥范哥范哥</item>
+    </div>
+    <!-- flex: none => flex: 0 0 auto; -->
+    <h4>flex:none</h4>
+    <div class="container flex-none">
+        <item>范张范张范张</item>
+        <item>范鑫范鑫范鑫</item>
+        <item>范旭范旭范旭</item>
+        <item>范帅范帅范帅</item>
+        <item>范哥范哥范哥</item>
+    </div>
+    <!-- flex: 1 => flex: 1 1 0% -->
+    <h4>flex:1</h4>
+    <div class="container flex-1">
+        <item>范张范张范张范张范张范张范张范张范张</item>
+        <item>范鑫</item>
+        <item>范旭</item>
+        <item>范帅</item>
+        <item>范哥</item>
+    </div>
+    <!-- flex: auto => flex: 1 1 auto -->
+    <h4>flex:auto</h4>
+    <div class="container flex-auto">
+        <item>范张范张范张范张范张范张范张范张范张</item>
+        <item>范鑫</item>
+        <item>范旭</item>
+        <item>范帅</item>
+        <item>范哥</item>
+    </div>
+    <script>
+        console.log(getComputedStyle(document.body).flexGrow); // 0
+        console.log(getComputedStyle(document.body).flexShrink); // 1
+        console.log(getComputedStyle(document.body).flexBasis); // auto
+    </script>
 </body>
 </html>

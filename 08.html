@@ -1,0 +1,24 @@
+<!-- https://www.zhangxinxu.com/wordpress/2020/08/js-customevent-pass-param/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--  -->
+    <script>
+        // var myEvent = new CustomEvent('evtName', {
+        //     details: {}
+        // })
+        document.body.addEventListener('evtName', () => {
+            console.log(111)
+        })
+        document.body.dispatchEvent( new CustomEvent('evtName', {
+            details: {}
+        }))
+    </script>
+</body>
+</html>
