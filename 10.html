@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .mask-image {
+            width: 256px;
+            height: 192px;
+            -webkit-mask-image: radial-gradient(600px 80px at top, transparent 150px, black 152px 1000px, transparent 0),
+                        radial-gradient(600px 80px at bottom, transparent 150px, black 152px 1000px, transparent 0);
+            mask-image: radial-gradient(600px 80px at top, transparent 150px, black 152px 1000px, transparent 0),
+                        radial-gradient(600px 80px at bottom, transparent 150px, black 152px 1000px, transparent 0);
+                
+        }
+    </style>
+</head>
+<body>
+    <img src="./assets/01.webp" class="mask-image" alt="">
+</body>
+</html>

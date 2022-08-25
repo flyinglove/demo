@@ -1,0 +1,6 @@
+<svg>
+    <mask id="mask" maskContentUnits="objectBoundingBox">
+        <ellipse cx=".5" cy=".5" rx=".4" ry=".2" fill="white"></ellipse>
+        <rect x=".3" y=".1" width=".4" height=".8" rx=".1" ry=".1" fill="white"></rect>
+    </mask>
+</svg>
