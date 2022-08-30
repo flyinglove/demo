@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+            margin: 0;
+            height: 100vh;
+        }
+        .container {
+            font-size: 0;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .preview {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+        }
+        .img-wrapper {
+            display: inline-block;
+            width: 100%;
+        }
+        img {
+            /* position: absolute; */
+            width: 100%;
+        }
+        /* .preview::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background-color: black;
+            z-index: -1;
+        } */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="img-wrapper">
+            <div class="img" data-idx="1">
+                <img src="./assets/01.webp" alt="">
+            </div>
+        </div>
+        <div class="img-wrapper">
+            <div class="img" data-idx="2">
+                <img src="./assets/02.webp" alt="">
+            </div>
+        </div>
+        <div class="img-wrapper">
+            <div class="img" data-idx="3">
+                <img src="./assets/03.webp" alt="">
+            </div>
+        </div>
+    </div>
+    <script>
+        let wrapper = document.querySelector('.container')
+        let imgList = document.querySelector('.img')
+
+        let startX = 0;
+        wrapper.addEventListener('touchstart', e => {
+            startX = e.changedTouches[0].pageX + wrapper.scrollLeft
+            console.log('startX:', startX)
+        })
+
+        wrapper.addEventListener('touchmove', e => {
+            let currentX = e.changedTouches[0].pageX + wrapper.scrollLeft
+            // 手势左移为正，右移为负
+            let direction = startX > currentX ? 1 : -1
+            let delta = Math.abs(currentX - startX)
+
+            console.log('move', direction * delta, currentX)
+            wrapper.scrollLeft = wrapper.scrollLeft + direction * delta
+        })
+        wrapper.addEventListener('touchend', e => {
+            // startX = 
+            const curScroll = wrapper.scrollLeft
+            let id = Math.floor(curScroll / window.screen.availWidth)
+            let delta = (curScroll / window.screen.availWidth) - id
+            console.log(id, delta)
+            if (delta > 0.5) {
+                // todo 滚动加动效
+                wrapper.scrollLeft = (id + 1) * window.screen.availWidth
+            } else {
+                // todo 滚动加动效
+                wrapper.scrollLeft = id * window.screen.availWidth
+            }
+            console.log(wrapper.scrollLeft)
+        })
+        wrapper.addEventListener('click',　 e=> {
+            if (wrapper.classList.contains('preview')) {
+                wrapper.classList.remove('preview')
+            } else {
+                wrapper.classList.add('preview')
+            }
+        })
+    </script>
+</body>
+</html>
