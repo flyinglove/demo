@@ -1,6 +1,6 @@
 <template>
   <section class="canvas">
-    <div class="canvas-inner" @pointerover="onPointerOver" @pointerleave="clearHovered">
+    <div class="canvas-inner">
       <ContainerNode
         :node="root"
         :selected-id="selectedId"
@@ -15,7 +15,6 @@
 <script setup lang="ts">
 import ContainerNode from './ContainerNode.vue';
 import type { ContainerNode as ContainerNodeType, DragPayload } from '../types';
-import { setHoveredContainer } from '../stores/hovered-container';
 
 defineProps<{
   root: ContainerNodeType;
@@ -26,19 +25,6 @@ const emit = defineEmits<{
   (event: 'select', nodeId: string): void;
   (event: 'drop-node', targetId: string, payload: DragPayload): void;
 }>();
-
-function onPointerOver(event: PointerEvent) {
-  if (!(event.target instanceof HTMLElement)) {
-    setHoveredContainer(null);
-    return;
-  }
-  const element = event.target.closest<HTMLElement>('[data-container-id]');
-  setHoveredContainer(element?.dataset.containerId ?? null);
-}
-
-function clearHovered() {
-  setHoveredContainer(null);
-}
 </script>
 
 <style scoped>
