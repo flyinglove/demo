@@ -1,26 +1,22 @@
 <template>
   <div class="container-node" :class="{ 'is-root': level === 0 }">
+    <header class="container-toolbar">
+      <button class="select" :class="{ active: isSelected }" @click.stop="selectNode">
+        {{ level === 0 ? '根容器' : '容器' }} · {{ node.id }}
+      </button>
+      <span class="hint">宽度 {{ node.props.width }} · 高度 {{ node.props.height }} · 布局 {{ node.props.layout }}</span>
+    </header>
+
     <div
       class="container-body"
       :class="{ selected: isSelected }"
       :style="containerStyle"
-      @dragover.stop.prevent="onDragOver"
-      @dragenter.stop.prevent="onDragEnter"
-      @dragleave.stop.prevent="onDragLeave"
-      @drop.stop.prevent="onDrop"
+      @dragover.prevent="onDragOver"
+      @dragenter.prevent="onDragEnter"
+      @dragleave.prevent="onDragLeave"
+      @drop.prevent="onDrop"
       @click.stop="selectNode"
-      @mouseenter="onMouseEnter"
-      @mouseleave="onMouseLeave"
     >
-      <header class="container-toolbar" v-show="showToolbar">
-        <button class="select" :class="{ active: isSelected }" @click.stop="selectNode">
-          {{ level === 0 ? '根容器' : '容器' }} · {{ node.id }}
-        </button>
-        <span class="hint">
-          宽度 {{ node.props.width }} · 高度 {{ node.props.height }} · 布局 {{ node.props.layout }}
-        </span>
-      </header>
-
       <template v-if="node.children.length">
         <template v-for="child in node.children" :key="child.id">
           <ContainerNode
@@ -57,11 +53,9 @@ const emit = defineEmits<{
   (event: 'select', nodeId: string): void;
 }>();
 
-const isDragHovering = ref(false);
-const isPointerOver = ref(false);
+const isHovering = ref(false);
 
 const isSelected = computed(() => props.selectedId === props.node.id);
-const showToolbar = computed(() => isSelected.value || isDragHovering.value || isPointerOver.value);
 
 const containerStyle = computed(() => ({
   display: 'flex',
@@ -73,7 +67,7 @@ const containerStyle = computed(() => ({
   width: props.node.props.width,
   minHeight: props.node.props.height === 'auto' ? '120px' : props.node.props.height,
   background: props.node.props.background,
-  border: isDragHovering.value ? '2px dashed #2563eb' : '1px dashed #cbd5f5',
+  border: isHovering.value ? '2px dashed #2563eb' : '1px dashed #cbd5f5',
   borderRadius: '16px',
   transition: 'border 0.15s ease'
 }));
@@ -85,11 +79,11 @@ function onDragOver(event: DragEvent) {
 }
 
 function onDragEnter() {
-  isDragHovering.value = true;
+  isHovering.value = true;
 }
 
 function onDragLeave() {
-  isDragHovering.value = false;
+  isHovering.value = false;
 }
 
 function onDrop(event: DragEvent) {
@@ -97,15 +91,7 @@ function onDrop(event: DragEvent) {
   if (!raw) return;
   const payload = JSON.parse(raw) as DragPayload;
   emit('drop-node', { targetId: props.node.id, payload });
-  isDragHovering.value = false;
-}
-
-function onMouseEnter() {
-  isPointerOver.value = true;
-}
-
-function onMouseLeave() {
-  isPointerOver.value = false;
+  isHovering.value = false;
 }
 
 function forwardDrop(payload: { targetId: string; payload: DragPayload }) {
@@ -121,7 +107,35 @@ function selectNode() {
 .container-node {
   display: flex;
   flex-direction: column;
+  gap: 12px;
   margin-bottom: 16px;
+}
+
+.container-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.container-toolbar .select {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: rgba(37, 99, 235, 0.12);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.container-toolbar .select.active {
+  border-color: #2563eb;
+  background: rgba(37, 99, 235, 0.25);
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: #6b7280;
 }
 
 .container-body {
@@ -142,41 +156,5 @@ function selectNode() {
 
 .is-root .container-body {
   border-style: solid;
-}
-
-.container-toolbar {
-  position: absolute;
-  inset: 12px 12px auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(15, 23, 42, 0.85);
-  color: white;
-  pointer-events: none;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
-}
-
-.container-toolbar .select {
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  background: rgba(96, 165, 250, 0.2);
-  font-size: 0.85rem;
-  cursor: pointer;
-  color: inherit;
-  pointer-events: auto;
-}
-
-.container-toolbar .select.active {
-  border-color: rgba(96, 165, 250, 0.65);
-  background: rgba(37, 99, 235, 0.35);
-}
-
-.hint {
-  font-size: 0.75rem;
-  color: rgba(226, 232, 240, 0.85);
 }
 </style>
